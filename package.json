@@ -1,0 +1,29 @@
+{
+  "name": "jobapply-expressjs-server-validation",
+  "version": "1.0.0",
+  "description": "Enterprise Online Job Application & Recruitment Portal demonstrating Server-Side Validation using ExpressJS and express-validator",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test/app.test.js",
+    "screenshots": "node capture-screenshots.js"
+  },
+  "keywords": [
+    "expressjs",
+    "server-side-validation",
+    "express-validator",
+    "web-technology",
+    "practical-5"
+  ],
+  "author": "Atharv Jadhav",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "express-validator": "^7.2.0"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^23.6.0"
+  }
+}
