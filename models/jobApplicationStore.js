@@ -126,3 +126,4 @@ class JobApplicationStore {
 }
 
 export const jobStore = new JobApplicationStore();
+

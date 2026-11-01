@@ -24,3 +24,4 @@ router.get('/applications/:id', jobController.getApplicationById);
 router.delete('/applications/:id', jobController.deleteApplication);
 
 export default router;
+

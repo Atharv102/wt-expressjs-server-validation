@@ -198,9 +198,7 @@ def build_pdf(student_name="Atharv Jadhav", prn="202401100102", division="B", ou
     meta_rows = [
         [Paragraph("<b>Student Name:</b>", body_text), Paragraph(student_name, body_text)],
         [Paragraph("<b>PRN:</b>", body_text), Paragraph(prn, body_text)],
-        [Paragraph("<b>Class:</b>", body_text), Paragraph("T.Y. B.Tech Computer Engineering", body_text)],
         [Paragraph("<b>Division / Batch:</b>", body_text), Paragraph(f"Division {division}", body_text)],
-        [Paragraph("<b>Academic Year:</b>", body_text), Paragraph("2026-27", body_text)],
     ]
     meta_table = Table(meta_rows, colWidths=[120, 240])
     meta_table.setStyle(TableStyle([
@@ -575,6 +573,12 @@ if __name__ == '__main__':
         division="B",
         output_filename="JobApply_WT_Practical_Report.pdf"
     )
+    build_pdf(
+        student_name="Atharv Jadhav",
+        prn="202401100102",
+        division="B",
+        output_filename="practical 5-202401100102.pdf"
+    )
     # 2. Chaitanya Umbarkar (PRN: 202401100080, Div: B)
     build_pdf(
         student_name="Chaitanya Umbarkar",
@@ -582,3 +586,4 @@ if __name__ == '__main__':
         division="B",
         output_filename="JobApply_WT_Practical_Report_Chaitanya_Umbarkar.pdf"
     )
+

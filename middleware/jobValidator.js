@@ -152,3 +152,4 @@ export const validateJobApplication = (req, res, next) => {
   req.body.termsAccepted = true;
   next();
 };
+
