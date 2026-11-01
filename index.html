@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JobApply — Online Job Application Portal (ExpressJS Server-Side Validation)</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Top Navigation Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">JobApply<span class="brand-accent">.express</span></span>
+          <span class="brand-subtitle">Enterprise Candidate Recruitment Portal</span>
+        </div>
+      </div>
+
+      <div class="header-meta">
+        <span class="badge badge-express">ExpressJS 4.21</span>
+        <span class="badge badge-validator">express-validator 7.2</span>
+        <div class="server-status" id="serverStatusBadge">
+          <span class="status-indicator online"></span>
+          <span class="status-text" id="serverStatusText">Express Server Online</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sub-Header / Student Context Banner -->
+  <div class="context-banner">
+    <div class="context-container">
+      <div class="academic-info">
+        <span class="uni-tag">MIT Academy of Engineering, Pune</span>
+        <span class="divider">|</span>
+        <span class="course-tag">Web Technology Lab (Practical 5)</span>
+        <span class="divider">|</span>
+        <span class="student-tag">Candidate: <strong>Atharv Jadhav</strong> (PRN: 202401100102, Div: B)</span>
+      </div>
+      <div class="github-link">
+        <a href="https://github.com/Atharv102/wt-expressjs-server-validation" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          Atharv102/wt-expressjs-server-validation
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-layout">
+    <!-- Quick Statistics Strip -->
+    <section class="stats-strip">
+      <div class="stat-card">
+        <div class="stat-icon bg-blue">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <div class="stat-val" id="statTotalApps">3</div>
+          <div class="stat-label">Active Applications</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon bg-emerald">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <div class="stat-val" id="statOpenPositions">6</div>
+          <div class="stat-label">Engineering Openings</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon bg-purple">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <div class="stat-val" id="statAvgExp">2.3 yrs</div>
+          <div class="stat-label">Average Experience</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon bg-amber">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <div class="stat-val">11 Rules</div>
+          <div class="stat-label">Strict Server Validation</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Workspace Split -->
+    <div class="workspace-grid">
+      <!-- LEFT PANEL: Application Form -->
+      <section class="card form-panel">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <h2 class="panel-title">Candidate Application Form</h2>
+            <p class="panel-desc">All user inputs undergo strict validation on the ExpressJS backend using <code>express-validator</code> chains before persistence.</p>
+          </div>
+          
+          <!-- Test Presets Controls -->
+          <div class="presets-toolbar">
+            <span class="preset-label">Test Scenarios:</span>
+            <div class="preset-buttons">
+              <button type="button" class="btn btn-preset btn-success" id="btnFillValid">
+                <span>✔</span> Valid Senior Dev
+              </button>
+              <button type="button" class="btn btn-preset btn-info" id="btnFillFresher">
+                <span>✔</span> Valid Fresher
+              </button>
+              <button type="button" class="btn btn-preset btn-danger" id="btnFillErrors">
+                <span>✖</span> Trigger Multi-Errors
+              </button>
+              <button type="button" class="btn btn-preset btn-ghost" id="btnClearForm">
+                Reset
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <form id="jobApplicationForm" class="job-form" novalidate>
+          <!-- Full Name -->
+          <div class="form-group" id="group_fullName">
+            <label for="fullName" class="form-label">
+              Full Legal Name <span class="required">*</span>
+              <span class="label-hint">(3–50 chars, alphabets only)</span>
+            </label>
+            <div class="input-wrapper">
+              <input type="text" id="fullName" name="fullName" class="form-control" placeholder="e.g. Atharv Jadhav" autocomplete="name">
+              <span class="field-icon"></span>
+            </div>
+            <div class="field-error-msg" id="err_fullName"></div>
+          </div>
+
+          <!-- Email & Phone Dual Row -->
+          <div class="form-row">
+            <div class="form-group col-half" id="group_email">
+              <label for="email" class="form-label">
+                Email Address <span class="required">*</span>
+                <span class="label-hint">(Unique candidate email)</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="email" id="email" name="email" class="form-control" placeholder="e.g. candidate@example.com" autocomplete="email">
+                <span class="field-icon"></span>
+              </div>
+              <div class="field-error-msg" id="err_email"></div>
+            </div>
+
+            <div class="form-group col-half" id="group_phone">
+              <label for="phone" class="form-label">
+                Mobile Phone <span class="required">*</span>
+                <span class="label-hint">(10 digits starting with 6–9)</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="tel" id="phone" name="phone" class="form-control" placeholder="e.g. 9823123456" maxlength="10">
+                <span class="field-icon"></span>
+              </div>
+              <div class="field-error-msg" id="err_phone"></div>
+            </div>
+          </div>
+
+          <!-- DOB & Experience Row -->
+          <div class="form-row">
+            <div class="form-group col-half" id="group_dob">
+              <label for="dob" class="form-label">
+                Date of Birth <span class="required">*</span>
+                <span class="label-hint">(Age must be &ge; 18 and &le; 65)</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="date" id="dob" name="dob" class="form-control">
+                <span class="field-icon"></span>
+              </div>
+              <div class="field-error-msg" id="err_dob"></div>
+            </div>
+
+            <div class="form-group col-half" id="group_experience">
+              <label for="experience" class="form-label">
+                Total Experience <span class="required">*</span>
+                <span class="label-hint">(0 to 40 Years)</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="number" id="experience" name="experience" class="form-control" placeholder="e.g. 3" min="0" max="40" step="0.5">
+                <span class="field-icon"></span>
+              </div>
+              <div class="field-error-msg" id="err_experience"></div>
+            </div>
+          </div>
+
+          <!-- Role & Qualification Row -->
+          <div class="form-row">
+            <div class="form-group col-half" id="group_jobRole">
+              <label for="jobRole" class="form-label">
+                Target Role <span class="required">*</span>
+              </label>
+              <div class="input-wrapper">
+                <select id="jobRole" name="jobRole" class="form-control">
+                  <option value="">-- Select Target Position --</option>
+                  <option value="Full Stack Developer">Full Stack Developer</option>
+                  <option value="Backend Node.js Engineer">Backend Node.js Engineer</option>
+                  <option value="Frontend Engineer">Frontend Engineer</option>
+                  <option value="Cloud / DevOps Architect">Cloud / DevOps Architect</option>
+                  <option value="QA Automation Engineer">QA Automation Engineer</option>
+                  <option value="Data Scientist / ML Engineer">Data Scientist / ML Engineer</option>
+                </select>
+                <span class="field-icon"></span>
+              </div>
+              <div class="field-error-msg" id="err_jobRole"></div>
+            </div>
+
+            <div class="form-group col-half" id="group_qualification">
+              <label for="qualification" class="form-label">
+                Highest Qualification <span class="required">*</span>
+              </label>
+              <div class="input-wrapper">
+                <select id="qualification" name="qualification" class="form-control">
+                  <option value="">-- Select Highest Degree --</option>
+                  <option value="B.Tech / B.E. (Computer / IT / EnTC)">B.Tech / B.E. (Computer / IT / EnTC)</option>
+                  <option value="M.Tech / M.E. (Computer / IT)">M.Tech / M.E. (Computer / IT)</option>
+                  <option value="BCA / MCA">BCA / MCA</option>
+                  <option value="B.Sc / M.Sc (Computer Science)">B.Sc / M.Sc (Computer Science)</option>
+                  <option value="Diploma in Engineering">Diploma in Engineering</option>
+                </select>
+                <span class="field-icon"></span>
+              </div>
+              <div class="field-error-msg" id="err_qualification"></div>
+            </div>
+          </div>
+
+          <!-- Key Technical Skills -->
+          <div class="form-group" id="group_skills">
+            <label for="skills" class="form-label">
+              Technical Skills Summary <span class="required">*</span>
+              <span class="label-hint">(At least 2 comma-separated skills)</span>
+            </label>
+            <div class="input-wrapper">
+              <input type="text" id="skills" name="skills" class="form-control" placeholder="e.g. Node.js, Express, React, PostgreSQL, Docker">
+              <span class="field-icon"></span>
+            </div>
+            <div class="field-error-msg" id="err_skills"></div>
+          </div>
+
+          <!-- Portfolio / GitHub URL -->
+          <div class="form-group" id="group_portfolioUrl">
+            <label for="portfolioUrl" class="form-label">
+              Portfolio or GitHub Profile Link <span class="optional">(Optional)</span>
+              <span class="label-hint">(Must start with http:// or https://)</span>
+            </label>
+            <div class="input-wrapper">
+              <input type="url" id="portfolioUrl" name="portfolioUrl" class="form-control" placeholder="https://github.com/Atharv102">
+              <span class="field-icon"></span>
+            </div>
+            <div class="field-error-msg" id="err_portfolioUrl"></div>
+          </div>
+
+          <!-- Cover Note / Summary -->
+          <div class="form-group" id="group_coverLetter">
+            <label for="coverLetter" class="form-label">
+              Candidate Statement / Cover Note <span class="optional">(Optional)</span>
+              <span class="label-hint">(Max 500 characters)</span>
+            </label>
+            <div class="input-wrapper">
+              <textarea id="coverLetter" name="coverLetter" class="form-control textarea" rows="2" placeholder="Briefly describe your core strengths, engineering achievements, and motivation..."></textarea>
+            </div>
+            <div class="field-error-msg" id="err_coverLetter"></div>
+          </div>
+
+          <!-- Terms Checkbox -->
+          <div class="form-group terms-group" id="group_termsAccepted">
+            <label class="checkbox-container">
+              <input type="checkbox" id="termsAccepted" name="termsAccepted" value="true">
+              <span class="custom-checkbox"></span>
+              <span class="checkbox-text">
+                I declare that all details submitted are accurate and agree to undergo server-side credential verification. <span class="required">*</span>
+              </span>
+            </label>
+            <div class="field-error-msg" id="err_termsAccepted"></div>
+          </div>
+
+          <!-- Submit Action -->
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-submit" id="btnSubmit">
+              <span class="btn-spinner" id="submitSpinner"></span>
+              <span class="btn-text">Submit Application via POST /api/applications</span>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- RIGHT PANEL: Multi-Tab Server Inspector & Applications Registry -->
+      <section class="card right-panel">
+        <!-- Tabs Navigation -->
+        <div class="tabs-nav">
+          <button type="button" class="tab-btn active" data-tab="tabResponse">
+            <span class="tab-icon">⚡</span>
+            <span>Server Response (HTTP Inspector)</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="tabRegistry">
+            <span class="tab-icon">📋</span>
+            <span>Registered Applicants (<span id="tabCount">3</span>)</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="tabMatrix">
+            <span class="tab-icon">🛡️</span>
+            <span>Validation Rules Matrix</span>
+          </button>
+        </div>
+
+        <div class="tabs-content">
+          <!-- TAB 1: Server Response Inspector -->
+          <div class="tab-pane active" id="tabResponse">
+            <div class="inspector-header">
+              <div class="endpoint-pill">
+                <span class="method-tag">POST</span>
+                <span class="endpoint-path">/api/applications</span>
+              </div>
+              <div class="status-pill-badge" id="responseStatusBadge">
+                <span class="badge-code">READY</span>
+                <span class="badge-desc">Awaiting Submission</span>
+              </div>
+            </div>
+
+            <!-- Visual Alert Message Banner -->
+            <div class="alert-banner" id="responseAlertBanner" style="display: none;">
+              <div class="alert-icon" id="alertIcon"></div>
+              <div class="alert-body">
+                <div class="alert-heading" id="alertHeading"></div>
+                <div class="alert-text" id="alertText"></div>
+                <ul class="alert-error-list" id="alertErrorList"></ul>
+              </div>
+            </div>
+
+            <!-- Terminal Code Window for Raw JSON Payload -->
+            <div class="terminal-window">
+              <div class="terminal-bar">
+                <div class="terminal-dots">
+                  <span class="dot red"></span>
+                  <span class="dot yellow"></span>
+                  <span class="dot green"></span>
+                </div>
+                <span class="terminal-title">HTTP Response Payload (JSON)</span>
+                <button type="button" class="copy-btn" id="btnCopyJson">Copy JSON</button>
+              </div>
+              <pre class="terminal-body"><code id="jsonResponseDisplay">{
+  "status": "IDLE",
+  "message": "Click 'Submit Application' or choose a test scenario to inspect live ExpressJS server-side validation responses."
+}</code></pre>
+            </div>
+
+            <!-- ExpressJS Middleware Pipeline Explanation -->
+            <div class="middleware-flow-card">
+              <h4 class="flow-title">ExpressJS Request Lifecycle for Validation</h4>
+              <div class="pipeline-steps">
+                <div class="pipe-step">
+                  <span class="step-num">1</span>
+                  <span class="step-name">express.json()</span>
+                  <span class="step-desc">Parses incoming JSON body</span>
+                </div>
+                <div class="pipe-arrow">&rarr;</div>
+                <div class="pipe-step">
+                  <span class="step-num">2</span>
+                  <span class="step-name">express-validator</span>
+                  <span class="step-desc">Applies 11 validation chains</span>
+                </div>
+                <div class="pipe-arrow">&rarr;</div>
+                <div class="pipe-step">
+                  <span class="step-num">3</span>
+                  <span class="step-name">validateJobApplication</span>
+                  <span class="step-desc">Evaluates validationResult(req)</span>
+                </div>
+                <div class="pipe-arrow">&rarr;</div>
+                <div class="pipe-step">
+                  <span class="step-num">4</span>
+                  <span class="step-name">HTTP 201 or 400</span>
+                  <span class="step-desc">Returns structured response</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: Applications Registry Table -->
+          <div class="tab-pane" id="tabRegistry">
+            <div class="registry-toolbar">
+              <div class="search-box">
+                <input type="text" id="registrySearch" placeholder="Search by name, email, or application ID...">
+              </div>
+              <div class="filter-box">
+                <select id="registryRoleFilter">
+                  <option value="All">All Roles</option>
+                  <option value="Full Stack Developer">Full Stack Developer</option>
+                  <option value="Backend Node.js Engineer">Backend Node.js Engineer</option>
+                  <option value="Frontend Engineer">Frontend Engineer</option>
+                  <option value="Cloud / DevOps Architect">Cloud / DevOps Architect</option>
+                  <option value="QA Automation Engineer">QA Automation Engineer</option>
+                  <option value="Data Scientist / ML Engineer">Data Scientist / ML Engineer</option>
+                </select>
+              </div>
+              <button type="button" class="btn btn-sm btn-outline" id="btnRefreshRegistry">Refresh</button>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table" id="applicationsTable">
+                <thead>
+                  <tr>
+                    <th>App ID</th>
+                    <th>Candidate</th>
+                    <th>Target Role</th>
+                    <th>Exp</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="applicationsTableBody">
+                  <!-- Populated dynamically via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 3: Validation Rules Matrix -->
+          <div class="tab-pane" id="tabMatrix">
+            <div class="matrix-container">
+              <h4 class="matrix-title">Server-Side Validation Specifications (ExpressJS)</h4>
+              <p class="matrix-subtitle">Every incoming payload is intercepted and strictly validated prior to hitting business logic.</p>
+              
+              <div class="table-responsive">
+                <table class="matrix-table">
+                  <thead>
+                    <tr>
+                      <th>Field</th>
+                      <th>Rule / Chain</th>
+                      <th>Boundary Condition</th>
+                      <th>Failure HTTP Code</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>fullName</code></td>
+                      <td><code>isLength({min:3, max:50}) + matches()</code></td>
+                      <td>Letters, spaces, hyphens, periods only</td>
+                      <td><span class="status-code-tag error">400 Bad Request</span></td>
+                    </tr>
+                    <tr>
+                      <td><code>email</code></td>
+                      <td><code>isEmail() + normalizeEmail() + custom()</code></td>
+                      <td>Standard RFC email + Unique candidate check</td>
+                      <td><span class="status-code-tag error">400 Bad Request</span></td>
+                    </tr>
+                    <tr>
+                      <td><code>phone</code></td>
+                      <td><code>matches(/^[6-9]\d{9}$/)</code></td>
+                      <td>10 digits starting with 6, 7, 8, or 9</td>
+                      <td><span class="status-code-tag error">400 Bad Request</span></td>
+                    </tr>
+                    <tr>
+                      <td><code>dob</code></td>
+                      <td><code>isISO8601() + custom(ageCheck)</code></td>
+                      <td>Age &ge; 18 and &le; 65 years at runtime</td>
+                      <td><span class="status-code-tag error">400 Bad Request</span></td>
+                    </tr>
+                    <tr>
+                      <td><code>jobRole</code></td>
+                      <td><code>custom(roleCheck)</code></td>
+                      <td>Must belong to predefined active openings</td>
+                      <td><span class="status-code-tag error">400 Bad Request</span></td>
+                    </tr>
+                    <tr>
+                      <td><code>qualification</code></td>
+                      <td><code>custom(degreeCheck)</code></td>
+                      <td>Must match permitted educational degrees</td>
+                      <td><span class="status-code-tag error">400 Bad Request</span></td>
+                    </tr>
+                    <tr>
+                      <td><code>experience</code></td>
+                      <td><code>isFloat({min: 0, max: 40})</code></td>
+                      <td>Numeric value from 0 to 40 years</td>
+                      <td><span class="status-code-tag error">400 Bad Request</span></td>
+                    </tr>
+                    <tr>
+                      <td><code>skills</code></td>
+                      <td><code>isLength() + custom(splitCheck)</code></td>
+                      <td>At least 2 distinct comma-separated skills</td>
+                      <td><span class="status-code-tag error">400 Bad Request</span></td>
+                    </tr>
+                    <tr>
+                      <td><code>portfolioUrl</code></td>
+                      <td><code>optional() + isURL()</code></td>
+                      <td>Valid HTTP / HTTPS URL format</td>
+                      <td><span class="status-code-tag error">400 Bad Request</span></td>
+                    </tr>
+                    <tr>
+                      <td><code>coverLetter</code></td>
+                      <td><code>optional() + isLength({max: 500})</code></td>
+                      <td>Maximum 500 characters</td>
+                      <td><span class="status-code-tag error">400 Bad Request</span></td>
+                    </tr>
+                    <tr>
+                      <td><code>termsAccepted</code></td>
+                      <td><code>custom(val === true)</code></td>
+                      <td>Must be explicitly checked/accepted</td>
+                      <td><span class="status-code-tag error">400 Bad Request</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <span class="footer-brand">JobApply Online Recruitment System</span>
+        <span class="footer-sub">Web Technology Practical No. 5 &mdash; ExpressJS Server-Side Validation</span>
+      </div>
+      <div class="footer-col text-right">
+        <span>Department of Computer Engineering</span>
+        <span>MIT Academy of Engineering, Alandi, Pune &bull; Academic Year 2026-27</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
